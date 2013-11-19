@@ -2,8 +2,6 @@ require 'sinatra'
 require 'json'
 require 'redis'
 
-db = Redis.new
-
 post '/cloud-event/register' do
   address, name, location, timezone = params.values_at(:address, :name, :location, :timezone)
 
@@ -65,11 +63,30 @@ post '/device-event/counter' do
   address, name, format, payload = params.values_at(:address, :name, :format, :payload)
   title, value = JSON.parse(payload)
 
-  db.hset('devices:counts', address, value)
+  db.hset('counts', address, value)
 
   204
 end
 
 get '/' do
-  erb :index
+  erb :index, :locals => { :devices => devices, :counts => counts }
+end
+
+helpers do
+
+  def db
+    @db ||= Redis.new
+  end
+
+  def counts
+    db.hgetall('counts')
+  end
+
+  def devices
+    @devices ||= load_from_json_hash('devices')
+  end
+
+  def load_from_json_hash(key)
+    Hash[db.hgetall(key).map { |k,v| [k, JSON.parse(v)] }]
+  end
 end

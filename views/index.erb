@@ -1,0 +1,20 @@
+<h2>Counts</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Name</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% devices.each do |address, device| %>
+      <tr>
+        <td><%= address %></td>
+        <td><%= device['name'] %></td>
+        <td><%= counts[address] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
