@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'json'
 require 'redis'
+require 'uri'
 
 set :bind, "0.0.0.0"
 
@@ -84,8 +85,15 @@ end
 
 helpers do
 
+  def redis_url
+    @redis_url ||= URI.parse(ENV.fetch('REDIS_URL', 'redis://localhost:6379'))
+  end
+
   def db
-    @db ||= Redis.new
+    @db ||= Redis.new(:host => redis_url.host,
+      :port => redis_url.port,
+      :user => redis_url.user,
+      :password => redis_url.password)
   end
 
   def counters
