@@ -117,6 +117,16 @@ helpers do
     end
   end
 
+  def user_devices(email)
+    owns = []
+    db.hkeys('devices').each do |address|
+      db.smembers("ownerships:#{address}").each do |owner_email|
+        owns << devices[address] if owner_email == email
+      end
+    end
+    owns
+  end
+
   def load_from_json_hash(key)
     Hash[db.hgetall(key).map { |k,v| [k, JSON.parse(v)] }]
   end

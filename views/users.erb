@@ -3,14 +3,14 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Email</th>
+      <th>Devices</th>
     </tr>
   </thead>
   <tbody>
     <% users.each do |email, user| %>
       <tr>
         <td><%= user['name'] %></td>
-        <td><%= email %></td>
+        <td><%= user_devices(email).map { |d| d['name'] }.join(', ') %></td>
       </tr>
     <% end %>
   </tbody>
