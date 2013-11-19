@@ -72,15 +72,15 @@ post '/device-event/counter' do
 end
 
 get '/' do
-  erb :index, :locals => { :devices => devices, :counters => counters, :page => 'counters' }
+  erb :index, :locals => { :page => 'counters' }
 end
 
 get '/devices' do
-  erb :devices, :locals => { :devices => devices, :page => 'devices' }
+  erb :devices, :locals => { :page => 'devices' }
 end
 
 get '/users' do
-  erb :users, :locals => { :users => users, :page => 'users' }
+  erb :users, :locals => { :page => 'users' }
 end
 
 helpers do
