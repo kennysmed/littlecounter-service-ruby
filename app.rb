@@ -2,6 +2,8 @@ require 'sinatra'
 require 'json'
 require 'redis'
 
+set :bind, "0.0.0.0"
+
 post '/cloud-event/register' do
   address, name, location, timezone = params.values_at(:address, :name, :location, :timezone)
 
