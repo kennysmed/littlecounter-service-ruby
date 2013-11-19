@@ -1,4 +1,4 @@
-<h2>Counts</h2>
+<h2>Counters</h2>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -12,9 +12,8 @@
       <tr>
         <td><%= address %></td>
         <td><%= device['name'] %></td>
-        <td><%= counts[address] %></td>
+        <td><%= counters[address] || "<small>no value received</small>" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-

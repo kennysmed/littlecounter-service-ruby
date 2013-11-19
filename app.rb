@@ -63,21 +63,21 @@ post '/device-event/counter' do
   address, name, format, payload = params.values_at(:address, :name, :format, :payload)
   title, value = JSON.parse(payload)
 
-  db.hset('counts', address, value)
+  db.hset('counters', address, value)
 
   204
 end
 
 get '/' do
-  erb :index, :locals => { :devices => devices, :counts => counts }
+  erb :index, :locals => { :devices => devices, :counters => counters, :page => 'counters' }
 end
 
 get '/devices' do
-  erb :devices, :locals => { :devices => devices }
+  erb :devices, :locals => { :devices => devices, :page => 'devices' }
 end
 
 get '/users' do
-  erb :users, :locals => { :users => users }
+  erb :users, :locals => { :users => users, :page => 'users' }
 end
 
 helpers do
@@ -86,8 +86,8 @@ helpers do
     @db ||= Redis.new
   end
 
-  def counts
-    db.hgetall('counts')
+  def counters
+    db.hgetall('counters')
   end
 
   def devices
