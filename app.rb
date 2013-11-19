@@ -30,7 +30,7 @@ end
 post '/cloud-event/announce' do
   address, version = params.values_at(:address, :version)
 
-  device = JSON.parse(db.hget('devices', address))
+  device = JSON.parse(db.hget('devices', address) || '{}')
   device.merge!(:version => version)
   db.hset('devices', address, JSON.dump(device))
 
