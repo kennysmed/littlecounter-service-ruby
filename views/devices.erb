@@ -1,0 +1,27 @@
+<h2>Devices</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Timezone</th>
+      <th>Version</th>
+      <th>Owners</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% devices.each do |address, device| %>
+      <tr>
+        <td><%= address %></td>
+        <td><%= device['name'] %></td>
+        <td><%= device['location'] %></td>
+        <td><%= device['timezone'] %></td>
+        <td><%= device['version'] %></td>
+        <td>
+          <%= ownerships[address].map { |o| o['name'] }.join(', ') %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

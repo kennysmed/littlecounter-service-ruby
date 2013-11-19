@@ -72,6 +72,14 @@ get '/' do
   erb :index, :locals => { :devices => devices, :counts => counts }
 end
 
+get '/devices' do
+  erb :devices, :locals => { :devices => devices }
+end
+
+get '/users' do
+  erb :users, :locals => { :users => users }
+end
+
 helpers do
 
   def db
@@ -84,6 +92,19 @@ helpers do
 
   def devices
     @devices ||= load_from_json_hash('devices')
+  end
+
+  def users
+    @owners ||= load_from_json_hash('users')
+  end
+
+  def ownerships
+    @ownerships ||= {}.tap do |collection|
+      db.hkeys('devices').each do |address|
+        owners = db.smembers("ownerships:#{address}")
+        collection[address] = owners.map { |o| users[o] }
+      end
+    end
   end
 
   def load_from_json_hash(key)
