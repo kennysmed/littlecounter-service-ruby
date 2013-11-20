@@ -62,7 +62,7 @@ post '/cloud-event/remove-owner' do
   204
 end
 
-post '/device-event/counter' do
+post '/device-event/counter-changed' do
   address, name, format, payload = params.values_at(:address, :name, :format, :payload)
   title, value = JSON.parse(payload)
 
