@@ -4,6 +4,8 @@ require 'redis'
 require 'uri'
 
 set :bind, "0.0.0.0"
+set :session_secret, ENV["SESSION_SECRET"]
+enable :sessions
 
 post '/cloud-event/register' do
   address, name, location, timezone = params.values_at(:address, :name, :location, :timezone)
@@ -77,10 +79,6 @@ end
 
 get '/devices' do
   erb :devices, :locals => { :page => 'devices' }
-end
-
-get '/users' do
-  erb :users, :locals => { :page => 'users' }
 end
 
 helpers do
