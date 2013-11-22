@@ -15,5 +15,18 @@
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script>
+      $(function () {
+        setInterval(function() {
+          $('.counter').each(function() {
+            var out = $(this).find('samp').get(0);
+            var url = $(this).data('url');
+            $.getJSON(url).done(function( data ) {
+              $(out).text(data.counter);
+            });
+          });
+        }, 5000);
+      });
+    </script>
   </body>
 </html>

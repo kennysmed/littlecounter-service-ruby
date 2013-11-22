@@ -20,7 +20,7 @@
     font-family: inherit;
   }
 </style>
-<p class="counter"><%= device.name %> <samp><%= device.counter %></samp></p>
+<p data-url="<%= url("/#{device.address}/counter.json") %>" class="counter"><%= device.name %> <samp><%= device.counter %></samp></p>
 
 <h2>Device details</h2>
 
