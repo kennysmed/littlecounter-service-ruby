@@ -77,8 +77,22 @@ get '/' do
   erb :index, :locals => { :page => 'counters' }
 end
 
-get '/devices' do
-  erb :devices, :locals => { :page => 'devices' }
+get '/goto' do
+  address = params[:address]
+  if db.hexists('devices', address)
+    redirect "/#{address}/counter"
+  else
+    erb :goto, :locals => { :address => address }
+  end
+end
+
+get '/:address/counter' do |address|
+  erb :counter, :locals => { :device => Device.new(db, address) }
+end
+
+get '/:address/counter.json' do |address|
+  content_type :json
+  Device.new(db, address).to_json
 end
 
 helpers do
@@ -98,34 +112,30 @@ helpers do
     db.hgetall('counters')
   end
 
-  def devices
-    @devices ||= load_from_json_hash('devices')
+end
+
+class Device
+  attr_accessor :db, :address
+
+  def initialize(db, address)
+    @db, @address = db, address
   end
 
-  def users
-    @owners ||= load_from_json_hash('users')
+  def counter
+    db.hget('counters', address).to_i
   end
 
-  def ownerships
-    @ownerships ||= {}.tap do |collection|
-      db.hkeys('devices').each do |address|
-        owners = db.smembers("ownerships:#{address}")
-        collection[address] = owners.map { |o| users[o] }
-      end
+  def info
+    @info ||= JSON.parse(db.hget('devices', address))
+  end
+
+  def to_json
+    info.merge("counter" => counter).to_json
+  end
+
+  %w[name location timezone version].each do |val|
+    define_method(val) do
+      info[val]
     end
-  end
-
-  def user_devices(email)
-    owns = []
-    db.hkeys('devices').each do |address|
-      db.smembers("ownerships:#{address}").each do |owner_email|
-        owns << devices[address] if owner_email == email
-      end
-    end
-    owns
-  end
-
-  def load_from_json_hash(key)
-    Hash[db.hgetall(key).map { |k,v| [k, JSON.parse(v)] }]
   end
 end

@@ -11,12 +11,6 @@
       <header>
         <h1>Little Counter</h1>
       </header>
-      <nav class="navbar navbar-default" role="navigation">
-        <ul class="nav navbar-nav">
-          <li class="<%= :active if page == "counters" %>"><a href="/">Counters</a></li>
-          <li class="<%= :active if page == "devices" %>"><a href="/devices">Devices</a></li>
-        </ul>
-      </nav>
       <%= yield %>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>

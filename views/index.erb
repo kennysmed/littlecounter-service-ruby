@@ -1,19 +1,9 @@
-<h2>Counters</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Address</th>
-      <th>Name</th>
-      <th>Count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% devices.each do |address, device| %>
-      <tr>
-        <td><%= address %></td>
-        <td><%= device['name'] %></td>
-        <td><%= counters[address] || "<small>no value received</small>" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<form action="/goto" method="get" class="form-inline" role="form">
+  <p>
+    <label for="bergcloud-address">What is the BERG Cloud device address if your Little Counter?</label>
+  </p>
+  <div class="form-group">
+    <input id="bergcloud-address" class="form-control" type="text" name="address" placeholder="BERG Cloud address">
+  </div>
+  <button type="submit" class="btn btn-primary">Show me my counter</button>
+</form>
